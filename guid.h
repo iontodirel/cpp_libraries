@@ -85,12 +85,17 @@ public:
 		return *this;
 	}
 
-	std::string to_string()
+	void swap(guid& other)
+	{
+		std::swap(guid_, other.guid_);
+	}
+
+	std::string to_string() const
 	{
 		return to_string(guid_format::include_brackets);
 	}
 
-	std::string to_string(guid_format format)
+	std::string to_string(guid_format format) const
 	{
 		std::string str;
 		str.resize(39);
@@ -107,12 +112,12 @@ public:
 		return str;
 	}
 
-	std::wstring to_wstring()
+	std::wstring to_wstring() const
 	{
 		return to_wstring(guid_format::include_brackets);
 	}
 
-	std::wstring to_wstring(guid_format format)
+	std::wstring to_wstring(guid_format format) const
 	{
 		std::wstring str;
 		str.resize(39);
@@ -129,7 +134,7 @@ public:
 		return str;
 	}
 
-	bool empty()
+	bool empty() const
 	{
 		return guid_.Data1 == 0 &&
 			guid_.Data2 == 0 &&
@@ -144,7 +149,7 @@ public:
 			guid_.Data4[7] == 0;
 	}
 
-	bool operator == (const guid& other)
+	bool operator == (const guid& other) const
 	{
 		return guid_.Data1 == other.guid_.Data1 &&
 			guid_.Data2 == other.guid_.Data2 &&
@@ -159,7 +164,7 @@ public:
 			guid_.Data4[7] == other.guid_.Data4[7];
 	}
 
-	bool operator != (const guid& other)
+	bool operator != (const guid& other) const
 	{
 		return !(*this == other);
 	}
