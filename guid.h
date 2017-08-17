@@ -57,7 +57,7 @@ public:
 	{
 		std::wstring wstr;
 		wstr.resize(40);
-		MultiByteToWideChar(0, 0, str, wstr.length(), (wchar_t*)wstr.c_str(), wstr.length());
+		MultiByteToWideChar(0, 0, str, (int)wstr.length(), (wchar_t*)wstr.c_str(), (int)wstr.length());
 		CLSIDFromString(wstr.c_str(), &guid_);
 	}
 
