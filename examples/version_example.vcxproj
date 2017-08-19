@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4A67DADE-3CE0-4BA3-99BB-CF2D8879BE07}</ProjectGuid>
-    <RootNamespace>guid_example</RootNamespace>
+    <ProjectGuid>{8A3FB7BB-4BD3-4247-9FE2-9DB65BC8F61C}</ProjectGuid>
+    <RootNamespace>version_example</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -117,8 +117,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\guid.h" />
-    <ClCompile Include="guid_example.cpp" />
+    <ClInclude Include="..\version.h" />
+    <ClCompile Include="version_example.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

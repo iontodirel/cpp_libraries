@@ -168,6 +168,7 @@ public:
 	{
 		return !(*this == other);
 	}
+
 private:
 	guid(GUID guid)
 	{
