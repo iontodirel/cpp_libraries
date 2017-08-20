@@ -35,272 +35,288 @@
 class version_parse_exception : public std::exception
 {
 public:
-	version_parse_exception() : std::exception() {}
-	version_parse_exception(const char* message) : std::exception(message) { message_ = message; }
-	version_parse_exception(const std::string& message) : std::exception(message.c_str()) { message_ = message; }
+    version_parse_exception() : std::exception() {}
+    version_parse_exception(const std::string& message) : std::exception(message.c_str()) { message_ = message; }
 
-	std::string message() { return message_; }
+    std::string message() { return message_; }
 
 private:
-	std::string message_;
+    std::string message_;
 };
 
 class version
 {
 public:
-	static version parse(const std::string& version_string)
-	{
-		version v;
-		if (!try_parse(version_string, v))
-		{
-			throw version_parse_exception("Could not parse version.");
-		}
-		return v;
-	}
+    static version parse(const std::string& version_string)
+    {
+        return parse(version_string, "-");
+    }
 
-	static bool try_parse(const std::string& version_string, version& result) noexcept
-	{
-		version v;
+    static version parse(const std::string& version_string, const std::string& release_separator)
+    {
+        version v;
+        if (!try_parse(version_string, release_separator, v))
+        {
+            throw version_parse_exception("Could not parse version.");
+        }
+        return v;
+    }
 
-		if (version_string.length() == 0)
-		{
-			return false;
-		}
+    static bool try_parse(const std::string& version_string, version& result) noexcept
+    {
+        return try_parse(version_string, "-", result);
+    }
 
-		int i = 0;
-		std::stringstream ss(version_string);
-		std::string s;
-		while (std::getline(ss, s, '.'))
-		{
-			size_t release_index = s.find('-');
-			if (release_index != s.npos)
-			{
-				v.release_ = s.substr(release_index + 1);
-				v.release_set_ = true;
-				if (v.seq_field_count_ == 4)
-				{
-					v.seq_field_count_++;
-				}
-				s = s.substr(0, release_index);
-			}
+    static bool try_parse(const std::string& version_string, const std::string& release_separator, version& result) noexcept
+    {
+        version v;
 
-			int n = 0;
-			try
-			{
-				n = std::stoi(s);
-			}
-			catch (std::invalid_argument&)
-			{
-				return false;
-			}
-			catch (std::out_of_range&)
-			{
-				return false;
-			}
+        if (version_string.length() == 0)
+        {
+            return false;
+        }
 
-			if (i == 0)
-				v.major_ = n;
-			else if (i == 1)
-				v.minor_ = n;
-			else if (i == 2)
-			{
-				v.revision_ = n;
-				v.seq_field_count_++;
-			}
-			else if (i == 3)
-			{
-				v.build_ = n;
-				v.seq_field_count_++;
-			}
+        int i = 0;
+        std::stringstream ss(version_string);
+        std::string s;
+        while (std::getline(ss, s, '.'))
+        {
+            size_t release_index = s.find(release_separator);
+            if (release_index != s.npos)
+            {
+                v.release_ = s.substr(release_index + release_separator.length());
+                v.release_set_ = true;
+                if (v.seq_field_count_ == 4)
+                {
+                    v.seq_field_count_++;
+                }
+                s = s.substr(0, release_index);
+            }
 
-			i++;
-		}
+            int n = 0;
+            try
+            {
+                n = std::stoi(s);
+            }
+            catch (std::invalid_argument&)
+            {
+                return false;
+            }
+            catch (std::out_of_range&)
+            {
+                return false;
+            }
 
-		// Only assign if successful
-		result = v;
+            if (i == 0)
+                v.major_ = n;
+            else if (i == 1)
+                v.minor_ = n;
+            else if (i == 2)
+            {
+                v.revision_ = n;
+                v.seq_field_count_++;
+            }
+            else if (i == 3)
+            {
+                v.build_ = n;
+                v.seq_field_count_++;
+            }
 
-		return true;
-	}
+            i++;
+        }
 
-	version() {}
-	version(const char* version_string) : version(std::string(version_string)) {}
-	version(std::string version_string)
-	{
-		*this = parse(version_string);
-	}
-	version(int major, int minor) : major_(major), minor_(minor) {}
-	version(int major, int minor, std::string release) : major_(major), minor_(minor), release_(release), seq_field_count_(2), release_set_(true) {}
-	version(int major, int minor, int revision) : major_(major), minor_(minor), revision_(revision), seq_field_count_(3) {}
-	version(int major, int minor, int revision, std::string release) : major_(major), minor_(minor), revision_(revision), seq_field_count_(3), release_(release), release_set_(true) {}
-	version(int major, int minor, int revision, int build) : major_(major), minor_(minor), revision_(revision), build_(build), seq_field_count_(4) {}
-	version(int major, int minor, int revision, int build, std::string release) : major_(major), minor_(minor), revision_(revision), build_(build), release_(release), seq_field_count_(5), release_set_(true) {}
+        // Only assign if successful
+        result = v;
 
-	version(const version& other)
-	{
-		major_ = other.major_;
-		minor_ = other.minor_;
-		revision_ = other.revision_;
-		build_ = other.build_;
-		release_ = other.release_;
-		seq_field_count_ = other.seq_field_count_;
-		release_set_ = other.release_set_;
-	}
+        return true;
+    }
 
-	version& operator=(const version& other)
-	{
-		major_ = other.major_;
-		minor_ = other.minor_;
-		revision_ = other.revision_;
-		build_ = other.build_;
-		release_ = other.release_;
-		seq_field_count_ = other.seq_field_count_;
-		release_set_ = other.release_set_;
-		return *this;
-	}
+    version() {}
+    version(const std::string& version_string) { *this = parse(version_string); }
+    version(int major, int minor) : major_(major), minor_(minor) {}
+    version(int major, int minor, const std::string& release) : major_(major), minor_(minor), release_(release), seq_field_count_(2), release_set_(true) {}
+    version(int major, int minor, int revision) : major_(major), minor_(minor), revision_(revision), seq_field_count_(3) {}
+    version(int major, int minor, int revision, const std::string& release) : major_(major), minor_(minor), revision_(revision), seq_field_count_(3), release_(release), release_set_(true) {}
+    version(int major, int minor, int revision, int build) : major_(major), minor_(minor), revision_(revision), build_(build), seq_field_count_(4) {}
+    version(int major, int minor, int revision, int build, const std::string& release) : major_(major), minor_(minor), revision_(revision), build_(build), release_(release), seq_field_count_(5), release_set_(true) {}
 
-	version(version&& other)
-	{
-		major_ = other.major_;
-		minor_ = other.minor_;
-		revision_ = other.revision_;
-		build_ = other.build_;
-		release_ = std::move(other.release_);
-		seq_field_count_ = other.seq_field_count_;
-		release_set_ = other.release_set_;
-	}
+    version(const version& other)
+    {
+        major_ = other.major_;
+        minor_ = other.minor_;
+        revision_ = other.revision_;
+        build_ = other.build_;
+        release_ = other.release_;
+        seq_field_count_ = other.seq_field_count_;
+        release_set_ = other.release_set_;
+    }
 
-	version& operator=(version&& other)
-	{
-		major_ = other.major_;
-		minor_ = other.minor_;
-		revision_ = other.revision_;
-		build_ = other.build_;
-		release_ = std::move(other.release_);
-		seq_field_count_ = other.seq_field_count_;
-		release_set_ = other.release_set_;
-		return *this;
-	}
+    version& operator=(const version& other)
+    {
+        major_ = other.major_;
+        minor_ = other.minor_;
+        revision_ = other.revision_;
+        build_ = other.build_;
+        release_ = other.release_;
+        seq_field_count_ = other.seq_field_count_;
+        release_set_ = other.release_set_;
+        return *this;
+    }
 
-	~version() {}
+    version(version&& other)
+    {
+        major_ = other.major_;
+        minor_ = other.minor_;
+        revision_ = other.revision_;
+        build_ = other.build_;
+        release_ = std::move(other.release_);
+        seq_field_count_ = other.seq_field_count_;
+        release_set_ = other.release_set_;
+    }
 
-	int major() const { return major_; }
-	int minor() const { return minor_; }
-	int revision() const { return revision_; }
-	int build() const { return build_; }
-	std::string release() const { return release_; }
+    version& operator=(version&& other)
+    {
+        major_ = other.major_;
+        minor_ = other.minor_;
+        revision_ = other.revision_;
+        build_ = other.build_;
+        release_ = std::move(other.release_);
+        seq_field_count_ = other.seq_field_count_;
+        release_set_ = other.release_set_;
+        return *this;
+    }
 
-	int fields() const
-	{
-		return (seq_field_count_ < 5 && release_set_) ? seq_field_count_ + 1 : seq_field_count_;
-	}
+    ~version() {}
 
-	bool empty() const
-	{
-		return major_ == 0 &&
-			minor_ == 0 &&
-			revision_ == 0 &&
-			build_ == 0 &&
-			release_.length() == 0 &&
-			seq_field_count_ == 2 &&
-			release_set_ == false;
-	}
+    void swap(version& other)
+    {
+        std::swap(major_, other.major_);
+        std::swap(minor_, other.minor_);
+        std::swap(revision_, other.revision_);
+        std::swap(build_, other.build_);
+        std::swap(release_, other.release_);
+        std::swap(seq_field_count_, other.seq_field_count_);
+        std::swap(release_set_, other.release_set_);
+    }
 
-	void clear()
-	{
-		major_ = {};
-		minor_ = {};
-		revision_ = {};
-		build_ = {};
-		release_ = {};
-		seq_field_count_ = 2;
-		release_set_ = false;
-	}
+    int major() const { return major_; }
+    int minor() const { return minor_; }
+    int revision() const { return revision_; }
+    int build() const { return build_; }
+    std::string release() const { return release_; }
 
-	std::string to_string() const
-	{
-		return to_string(seq_field_count_);
-	}
+    int fields() const
+    {
+        return (seq_field_count_ < 5 && release_set_) ? seq_field_count_ + 1 : seq_field_count_;
+    }
 
-	std::string to_string(int field_count) const
-	{
-		return to_string(seq_field_count_, release_set_);
-	}
+    bool empty() const
+    {
+        return major_ == 0 &&
+            minor_ == 0 &&
+            revision_ == 0 &&
+            build_ == 0 &&
+            release_.length() == 0 &&
+            seq_field_count_ == 2 &&
+            release_set_ == false;
+    }
 
-	std::string to_string(int field_count, bool include_release) const
-	{
-		return to_string(field_count, include_release, "_");
-	}
+    void clear()
+    {
+        major_ = {};
+        minor_ = {};
+        revision_ = {};
+        build_ = {};
+        release_ = {};
+        seq_field_count_ = 2;
+        release_set_ = false;
+    }
 
-	std::string to_string(int field_count, bool include_release, const std::string& release_separator) const
-	{
-		return to_string(field_count, include_release, release_separator.c_str());
-	}
+    std::string to_string() const
+    {
+        return to_string(seq_field_count_);
+    }
 
-	std::string to_string(int field_count, bool include_release, const char* release_separator) const
-	{
-		std::string str = std::to_string(major_) + "." + std::to_string(minor_);
-		if (field_count >= 3)
-			str += "." + std::to_string(revision_);
-		if (field_count >= 4)
-			str += "." + std::to_string(build_);
-		if ((field_count >= 5 && release_.length() > 0) || include_release)
-			str += release_separator + release_;
-		return str;
-	}
+    std::string to_string(int field_count) const
+    {
+        return to_string(seq_field_count_, release_set_);
+    }
 
-	bool operator==(const version& other) const { return compare(other) == 0; }
-	bool operator!=(const version& other) const { return compare(other) == -1; }
-	bool operator<(const version& other) const { return compare(other) < 0; }
-	bool operator>(const version& other) const { return compare(other) > 0; }
-	bool operator<=(const version& other) const { return compare(other) <= 0; }
-	bool operator>=(const version& other) const { return compare(other) >= 0; }
+    std::string to_string(int field_count, bool include_release) const
+    {
+        return to_string(field_count, include_release, "_");
+    }
 
-	int compare(const version& other) const
-	{
-		if (major_ != other.major_)
-		{
-			if (major_ < other.major_)
-				return -1;
-			return 1;
-		}
+    std::string to_string(int field_count, bool include_release, const std::string& release_separator) const
+    {
+        return to_string(field_count, include_release, release_separator.c_str());
+    }
 
-		if (minor_ != other.minor_)
-		{
-			if (minor_ < other.minor_)
-				return -1;
-			return 1;
-		}
+    std::string to_string(int field_count, bool include_release, const char* release_separator) const
+    {
+        std::string str = std::to_string(major_) + "." + std::to_string(minor_);
+        if (field_count >= 3)
+            str += "." + std::to_string(revision_);
+        if (field_count >= 4)
+            str += "." + std::to_string(build_);
+        if ((field_count >= 5 && release_.length() > 0) || include_release)
+            str += release_separator + release_;
+        return str;
+    }
 
-		if (revision_ != other.revision_)
-		{
-			if (revision_ < other.revision_)
-				return -1;
-			return 1;
-		}
+    bool operator==(const version& other) const { return compare(other) == 0; }
+    bool operator!=(const version& other) const { return compare(other) == -1; }
+    bool operator<(const version& other) const { return compare(other) < 0; }
+    bool operator>(const version& other) const { return compare(other) > 0; }
+    bool operator<=(const version& other) const { return compare(other) <= 0; }
+    bool operator>=(const version& other) const { return compare(other) >= 0; }
 
-		if (build_ != other.build_)
-		{
-			if (build_ < other.build_)
-				return -1;
-			return 1;
-		}
+    int compare(const version& other) const
+    {
+        if (major_ != other.major_)
+        {
+            if (major_ < other.major_)
+                return -1;
+            return 1;
+        }
 
-		if (release_set_ != other.release_set_ && release_ != other.release_)
-		{
-			return -1;
-		}
+        if (minor_ != other.minor_)
+        {
+            if (minor_ < other.minor_)
+                return -1;
+            return 1;
+        }
 
-		return 0;
-	}
+        if (revision_ != other.revision_)
+        {
+            if (revision_ < other.revision_)
+                return -1;
+            return 1;
+        }
+
+        if (build_ != other.build_)
+        {
+            if (build_ < other.build_)
+                return -1;
+            return 1;
+        }
+
+        if (release_set_ != other.release_set_ && release_ != other.release_)
+        {
+            return -1;
+        }
+
+        return 0;
+    }
 
 private:
-	int major_ = 0;
-	int minor_ = 0;
-	int revision_ = 0;
-	int build_ = 0;
-	int seq_field_count_ = 2;
-	std::string release_;
-	bool release_set_ = false;
+    int major_ = 0;
+    int minor_ = 0;
+    int revision_ = 0;
+    int build_ = 0;
+    std::string release_;
+    int seq_field_count_ = 2;
+    bool release_set_ = false;
 };
 
 #endif
