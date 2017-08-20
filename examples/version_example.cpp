@@ -54,7 +54,7 @@ int main()
 	assert(ver13.fields() == 4);
 
 	version ver14;
-	assert(version::try_parse("10.1.45243-", ver14) == false);
+	assert(version::try_parse("10.1.45243-", ver14));
 	ver14.clear();
 	assert(version::try_parse("", ver14) == false);
 	assert(ver14.empty());
