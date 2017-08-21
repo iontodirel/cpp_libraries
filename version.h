@@ -31,6 +31,7 @@
 #include <string>
 #include <stdexcept>
 #include <sstream>
+#include <algorithm>
 
 class version_parse_exception : public std::exception
 {
@@ -51,7 +52,7 @@ public:
     {
         return parse(version_string, "-");
     }
-
+    // release separator start, release separator end...
     static version parse(const std::string& version_string, const std::string& release_separator)
     {
         version v;
@@ -132,7 +133,7 @@ public:
     }
 
     version() {}
-    version(const std::string& version_string) { *this = parse(version_string); }
+    explicit version(const std::string& version_string) { *this = parse(version_string); }
     version(int major, int minor) : major_(major), minor_(minor) {}
     version(int major, int minor, const std::string& release) : major_(major), minor_(minor), release_(release), seq_field_count_(2), release_set_(true) {}
     version(int major, int minor, int revision) : major_(major), minor_(minor), revision_(revision), seq_field_count_(3) {}
@@ -244,7 +245,7 @@ public:
 
     std::string to_string(int field_count, bool include_release) const
     {
-        return to_string(field_count, include_release, "_");
+        return to_string(field_count, include_release, "-");
     }
 
     std::string to_string(int field_count, bool include_release, const std::string& release_separator) const
@@ -307,6 +308,101 @@ public:
         }
 
         return 0;
+    }
+
+    version& operator++()
+    {
+        operator+=(1);
+        return *this;
+    }
+
+    version operator++(int)
+    {
+        version v(*this);
+        operator++();
+        return v;
+    }
+
+    version& operator--()
+    {
+        operator-=(1);
+        return *this;
+    }
+
+    version operator--(int)
+    {
+        version v(*this);
+        operator--();
+        return v;
+    }
+
+    version& operator+=(const version& other)
+    {
+        major_ += other.major_;
+        minor_ += other.minor_;
+        revision_ += other.revision_;
+        build_ += other.build_;
+        seq_field_count_ = std::max(seq_field_count_, other.seq_field_count_);
+        return *this;
+    }
+
+    version& operator-=(const version& other)
+    {
+        major_ = std::max(major_ - other.major_, 0);
+        minor_ = std::max(minor_ - other.minor_, 0);
+        revision_ = std::max(revision_ - other.revision_, 0);
+        build_ = std::max(build_ - other.build_, 0);
+        return *this;
+    }
+
+    version& operator+=(int value)
+    {
+        if (seq_field_count_ == 2)
+            minor_ += value;
+        else if (seq_field_count_ == 3)
+            revision_ += value;
+        else if (seq_field_count_ >= 4)
+            build_ += value;
+        return *this;
+    }
+
+    version& operator-=(int value)
+    {
+        if (seq_field_count_ == 2)
+            minor_ = std::max(minor_ - value, 0);
+        else if (seq_field_count_ == 3)
+            revision_ = std::max(revision_ - value, 0);
+        else if (seq_field_count_ >= 4)
+            build_ = std::max(build_ - value, 0);
+        return *this;
+    }
+
+    version operator+(const version& other) const
+    {
+        version v(*this);
+        v += other;
+        return v;
+    }
+
+    version operator-(const version& other) const
+    {
+        version v(*this);
+        v -= other;
+        return v;
+    }
+
+    version operator+(int value) const
+    {
+        version v(*this);
+        v += value;
+        return v;
+    }
+
+    version operator-(int value) const
+    {
+        version v(*this);
+        v -= value;
+        return v;
     }
 
 private:

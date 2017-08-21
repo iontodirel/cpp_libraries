@@ -56,6 +56,7 @@ int main()
     version ver14;
     assert(version::try_parse("10.1.45243-", ver14));
     ver14.clear();
+    assert(ver14.empty());
     assert(version::try_parse("", ver14) == false);
     assert(ver14.empty());
     ver14.clear();
@@ -73,10 +74,25 @@ int main()
 
     try
     {
-        version ver16("1..");
+        version ver17("1..");
         assert(false);
     }
     catch (version_parse_exception)
     {
     }
+
+    version ver18(1, 0, 1);
+    version ver19 = ++ver18;
+    assert(ver19.major() == 1);
+    assert(ver19.minor() == 0);
+    assert(ver19.revision() == 2);
+    ver18++;
+    version ver20 = ver18 + version(0, 2, 5);
+    assert(ver20.major() == 1);
+    assert(ver20.minor() == 2);
+    assert(ver20.revision() == 8);
+    ver20--;
+    assert(ver20.revision() == 7);
+    version ver21 = ver20 - 10;
+    assert(ver21.revision() == 0);
 }
