@@ -38,33 +38,42 @@ class guid
 public:
     static guid create_new()
     {
-        GUID guid;
-        CoCreateGuid(&guid);
-        return class guid(guid);
+        return guid(true);
     }
 
     guid()
     {
     }
 
-    guid(const char* str)
+    explicit guid(bool create)
+    {
+        if (create)
+        {
+            this->create();
+        }
+    }
+
+    explicit guid(const char* str)
     {
         std::wstring wstr;
         wstr.resize(40);
         MultiByteToWideChar(0, 0, str, (int)wstr.length(), (wchar_t*)wstr.c_str(), (int)wstr.length());
+        fixup_guid(wstr);
         CLSIDFromString(wstr.c_str(), &guid_);
     }
 
-    guid(std::string str) : guid(str.c_str())
+    explicit guid(std::string str) : guid(str.c_str())
     {
     }
 
-    guid(const wchar_t* str)
+    explicit guid(const wchar_t* str)
     {
-        CLSIDFromString(str, &guid_);
+        std::wstring wstr(str);
+        fixup_guid(wstr);
+        CLSIDFromString(wstr.c_str(), &guid_);
     }
 
-    guid(std::wstring str) : guid(str.c_str())
+    explicit guid(std::wstring str) : guid(str.c_str())
     {
     }
 
@@ -82,6 +91,16 @@ public:
     void swap(guid& other)
     {
         std::swap(guid_, other.guid_);
+    }
+
+    void create()
+    {
+        CoCreateGuid(&guid_);
+    }
+
+    void clear()
+    {
+        guid_ = {};
     }
 
     std::string to_string() const
@@ -145,17 +164,7 @@ public:
 
     bool operator == (const guid& other) const
     {
-        return guid_.Data1 == other.guid_.Data1 &&
-            guid_.Data2 == other.guid_.Data2 &&
-            guid_.Data3 == other.guid_.Data3 &&
-            guid_.Data4[0] == other.guid_.Data4[0] &&
-            guid_.Data4[1] == other.guid_.Data4[1] &&
-            guid_.Data4[2] == other.guid_.Data4[2] &&
-            guid_.Data4[3] == other.guid_.Data4[3] &&
-            guid_.Data4[4] == other.guid_.Data4[4] &&
-            guid_.Data4[5] == other.guid_.Data4[5] &&
-            guid_.Data4[6] == other.guid_.Data4[6] &&
-            guid_.Data4[7] == other.guid_.Data4[7];
+        return IsEqualGUID(guid_, other.guid_) == TRUE;
     }
 
     bool operator != (const guid& other) const
@@ -164,9 +173,20 @@ public:
     }
 
 private:
-    guid(GUID guid)
+    explicit guid(GUID guid)
     {
         guid_ = guid;
+    }
+
+    void fixup_guid(std::wstring& str) const
+    {
+        if (str.length() > 1)
+        {
+            if (str[0] != L'{')
+                str.insert(0, L"{");
+            if (str[str.length() - 1] != L'}')
+                str.append(L"}");
+        }
     }
 
 private:
@@ -175,7 +195,7 @@ private:
 
 guid new_guid()
 {
-    return guid::create_new();
+    return guid(true);
 }
 
 #endif

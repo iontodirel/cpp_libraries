@@ -26,4 +26,18 @@ int main()
     g5.swap(g);
     assert(g5 != g4);
     assert(g == g2);
+
+    guid g6(true);
+    assert(g6.empty() == false);
+    guid g7;
+    assert(g7.empty());
+    g7.create();
+    assert(g7.empty() == false);
+    guid g8(g7);
+    assert(g8 == g7);
+    g8.create();
+    assert(g8 != g7);
+
+    guid g9("2AC3E955-939F-4756-8BC1-940BB7C882C3");
+    assert(g9.empty() == false);
 }

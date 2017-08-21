@@ -343,6 +343,10 @@ public:
         revision_ += other.revision_;
         build_ += other.build_;
         seq_field_count_ = std::max(seq_field_count_, other.seq_field_count_);
+        if (!release_set_ && other.seq_field_count_ > 4)
+        {
+            seq_field_count_--;
+        }
         return *this;
     }
 
