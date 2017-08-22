@@ -47,7 +47,7 @@ int main()
     guid g9(g8);
     assert(g9 == g8);
     g9.create();
-    assert(g9 != g8);
+    assert(g9 == g8);
 
     guid g10("2AC3E955-939F-4756-8BC1-940BB7C882C3");
     assert(g10.empty() == false);
