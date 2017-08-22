@@ -62,7 +62,7 @@ public:
         CLSIDFromString(wstr.c_str(), &guid_);
     }
 
-    explicit guid(std::string str) : guid(str.c_str())
+    explicit guid(const std::string& str) : guid(str.c_str())
     {
     }
 
@@ -73,7 +73,7 @@ public:
         CLSIDFromString(wstr.c_str(), &guid_);
     }
 
-    explicit guid(std::wstring str) : guid(str.c_str())
+    explicit guid(const std::wstring& str) : guid(str.c_str())
     {
     }
 
@@ -149,17 +149,7 @@ public:
 
     bool empty() const
     {
-        return guid_.Data1 == 0 &&
-            guid_.Data2 == 0 &&
-            guid_.Data3 == 0 &&
-            guid_.Data4[0] == 0 &&
-            guid_.Data4[1] == 0 &&
-            guid_.Data4[2] == 0 &&
-            guid_.Data4[3] == 0 &&
-            guid_.Data4[4] == 0 &&
-            guid_.Data4[5] == 0 &&
-            guid_.Data4[6] == 0 &&
-            guid_.Data4[7] == 0;
+        return guid_ == GUID_NULL;
     }
 
     bool operator == (const guid& other) const
@@ -173,7 +163,7 @@ public:
     }
 
 private:
-    explicit guid(GUID guid)
+    explicit guid(const GUID& guid)
     {
         guid_ = guid;
     }
