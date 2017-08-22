@@ -5,20 +5,26 @@
 
 int main()
 {
+    /* api documentation */
+
+    // create a new version
     version ver(1, 0, 7, "rc2");
+    // get the components of the version
     int major = ver.major();
     int minor = ver.minor();
     int rev = ver.revision();
     int build = ver.build();
     std::string release = ver.release();
-    /* number of set fields */
+    // get the number of set components
     int fields = ver.fields();
-    /* 1.0.7-rc2 */
+    // convert the version to string
     std::string str = ver.to_string();
-    /* clearing all the fields */
+    // clearing the version
     ver.clear();
-    /* construction from strings like 1.0.7-rc2 */
+    // construction from strings like 1.0.7-rc2
     ver = version(str);
+
+    /* tests */
 
     version ver1(0, 0);
     version ver2(0, 1);
@@ -95,4 +101,14 @@ int main()
     assert(ver20.revision() == 7);
     version ver21 = ver20 - 10;
     assert(ver21.revision() == 0);
+
+    version ver22(1, 2, " (rtm)");
+    std::string str2 = ver22.to_string(2, true, "");
+    assert(str2.compare("1.2 (rtm)") == 0);
+
+    version ver23(1, 2, ".3.4");
+    std::string str3 = ver23.to_string(2, true, "");
+    assert(str3.compare("1.2.3.4") == 0);
+
+    version ver24(str3);
 }

@@ -6,13 +6,18 @@
 
 int main()
 {
+    /* api documentation */
+
+    // create and start a stopwatch
     stopwatch sw = stopwatch::start_new();
-    /* code to profile */
+    // checking if the stopwatch is running
     if (sw.running() == true) {}
+    // stopping the stopwatch
     sw.stop();
-    sw.reset();
-    sw.restart();
-    sw.elapsed_milliseconds();
+    // returning the elapsed milliseconds
+    long long elapsed_ms = sw.elapsed_milliseconds();
+
+    /* tests */
 
     stopwatch sw2;
     assert(sw2.running() == false);
