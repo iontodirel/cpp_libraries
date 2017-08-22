@@ -33,48 +33,16 @@
 class stopwatch
 {
 public:
-    static stopwatch start_new() { return stopwatch(true); }
-
-    stopwatch() : stopwatch(false) {}
-
-    explicit stopwatch(bool start)
+    static stopwatch start_new()
     {
-        if (start)
-        {
-            this->start();
-        }
-    }
-
-    stopwatch(const stopwatch& other)
-    {
-        if (this != &other)
-        {
-            start_ = other.start_;
-            end_ = other.end_;
-            running_ = other.running_;
-        }
-    }
-
-    stopwatch& operator=(const stopwatch& other)
-    {
-        if (this != &other)
-        {
-            start_ = other.start_;
-            end_ = other.end_;
-            running_ = other.running_;
-        }
-        return *this;
-    }
-
-    ~stopwatch()
-    {
+        stopwatch sw;
+        sw.start();
+        return sw;
     }
 
     void swap(stopwatch& other)
     {
-        std::swap(running_, other.running_);
-        std::swap(start_, other.start_);
-        std::swap(end_, other.end_);
+        std::swap(*this, other);
     }
 
     void start()
@@ -110,29 +78,28 @@ public:
         start();
     }
 
-    bool running() const
-    {
-        return running_;
-    }
+    bool running() const { return running_; }
 
-    long long elapsed_nanoseconds() const { return elapsed_ll<std::chrono::nanoseconds>(); }
-    long long elapsed_microseconds() const { return elapsed_ll<std::chrono::microseconds>(); }
-    long long elapsed_milliseconds() const { return elapsed_ll<std::chrono::milliseconds>(); }
-    long long elapsed_seconds() const { return elapsed_ll<std::chrono::seconds>(); }
-    long long elapsed_minutes() const { return elapsed_ll<std::chrono::minutes>(); }
-    long long elapsed_hours() const { return elapsed_ll<std::chrono::hours>(); }
-
-private:
-    template<class D> long long elapsed_ll() const
+    template <class Duration>
+    Duration elapsed() const
     {
         std::chrono::high_resolution_clock::time_point end = end_;
         if (running_)
         {
             end = std::chrono::high_resolution_clock::now();
         }
-        return (long long)std::chrono::duration_cast<D>(end - start_).count();
+        return std::chrono::duration_cast<Duration>(end - start_);
     }
 
+    long long elapsed_nanoseconds() const { return elapsed<std::chrono::duration<long long, std::nano>>().count(); }
+    long long elapsed_microseconds() const { return elapsed<std::chrono::duration<long long, std::micro>>().count(); }
+    long long elapsed_milliseconds() const { return elapsed<std::chrono::duration<long long, std::milli>>().count(); }
+    double elapsed_seconds() const { return elapsed<std::chrono::duration<double>>().count(); }
+    double elapsed_minutes() const { return elapsed<std::chrono::duration<double, std::ratio<60>>>().count(); }
+    double elapsed_hours() const { return elapsed<std::chrono::duration<double, std::ratio<3600>>>().count(); }
+    double elapsed_days() const { return elapsed<std::chrono::duration<double, std::ratio<86400>>>().count(); }
+
+private:
     std::chrono::high_resolution_clock::time_point start_;
     std::chrono::high_resolution_clock::time_point end_;
     bool running_ = false;

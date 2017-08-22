@@ -19,24 +19,23 @@ int main()
     sw2.start();
     assert(sw2.running() == true);
     // Sleep for 100 milliseconds
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
     sw2.stop();
     assert(sw2.running() == false);
     assert(sw2.elapsed_nanoseconds() >= 100000000);
     assert(sw2.elapsed_microseconds() >= 100000);
     assert(sw2.elapsed_milliseconds() >= 100);
-    assert(sw2.elapsed_seconds() >= 100);
-    assert(sw2.elapsed_minutes() >= 100);
-    assert(sw2.elapsed_hours() >= 100);
+    assert(sw2.elapsed_seconds() >= 0.1);
 
     sw2.reset();
     assert(sw2.running() == false);
     assert(sw2.elapsed_nanoseconds() == 0);
     assert(sw2.elapsed_microseconds() == 0);
     assert(sw2.elapsed_milliseconds() == 0);
-    assert(sw2.elapsed_seconds() == 0);
-    assert(sw2.elapsed_minutes() == 0);
-    assert(sw2.elapsed_hours() == 0);
+    assert(sw2.elapsed_seconds() == 0.0);
+    assert(sw2.elapsed_minutes() == 0.0);
+    assert(sw2.elapsed_hours() == 0.0);
+    assert(sw2.elapsed_hours() == 0.0);
 
     sw2.restart();
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
