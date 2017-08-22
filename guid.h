@@ -30,7 +30,6 @@
 
 #include <string>
 #include <cwchar>
-
 #include <Windows.h>
 
 class guid
@@ -38,28 +37,18 @@ class guid
 public:
     static guid create_new()
     {
-        return guid(true);
+        guid g;
+        g.create();
+        return g;
     }
 
     guid()
     {
     }
 
-    explicit guid(bool create)
-    {
-        if (create)
-        {
-            this->create();
-        }
-    }
-
     explicit guid(const char* str)
     {
-        std::wstring wstr;
-        wstr.resize(40);
-        MultiByteToWideChar(0, 0, str, (int)wstr.length(), (wchar_t*)wstr.c_str(), (int)wstr.length());
-        fixup_guid(wstr);
-        CLSIDFromString(wstr.c_str(), &guid_);
+        create_from_string(string_to_wstring(str));
     }
 
     explicit guid(const std::string& str) : guid(str.c_str())
@@ -68,24 +57,11 @@ public:
 
     explicit guid(const wchar_t* str)
     {
-        std::wstring wstr(str);
-        fixup_guid(wstr);
-        CLSIDFromString(wstr.c_str(), &guid_);
+        create_from_string(std::wstring(str));
     }
 
     explicit guid(const std::wstring& str) : guid(str.c_str())
     {
-    }
-
-    guid(const guid& other)
-    {
-        guid_ = other.guid_;
-    }
-
-    guid& operator=(const guid& other)
-    {
-        guid_ = other.guid_;
-        return *this;
     }
 
     void swap(guid& other)
@@ -95,7 +71,10 @@ public:
 
     void create()
     {
-        CoCreateGuid(&guid_);
+        if (empty())
+        {
+            CoCreateGuid(&guid_);
+        }
     }
 
     void clear()
@@ -103,53 +82,33 @@ public:
         guid_ = {};
     }
 
-    std::string to_string() const
+    bool empty() const
     {
-        return to_string(true);
+        return guid_ == GUID_NULL;
     }
 
-    std::string to_string(bool include_brackets) const
+    std::string to_string() const
     {
         std::string str;
         str.resize(39);
-        if (include_brackets)
-        {
-            snprintf((char*)str.c_str(), str.length(), "{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}", guid_.Data1, guid_.Data2, guid_.Data3, guid_.Data4[0], guid_.Data4[1], guid_.Data4[2], guid_.Data4[3], guid_.Data4[4], guid_.Data4[5], guid_.Data4[6], guid_.Data4[7]);
-            str.erase(38, 1);
-        }
-        else
-        {
-            snprintf((char*)str.c_str(), str.length(), "%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X", guid_.Data1, guid_.Data2, guid_.Data3, guid_.Data4[0], guid_.Data4[1], guid_.Data4[2], guid_.Data4[3], guid_.Data4[4], guid_.Data4[5], guid_.Data4[6], guid_.Data4[7]);
-            str.erase(36, 3);
-        }
+        snprintf((char*)str.c_str(), str.length(), "{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}", guid_.Data1, guid_.Data2, guid_.Data3, guid_.Data4[0], guid_.Data4[1], guid_.Data4[2], guid_.Data4[3], guid_.Data4[4], guid_.Data4[5], guid_.Data4[6], guid_.Data4[7]);
+        str.erase(38, str.npos);
         return str;
+    }
+
+    std::string to_string_no_brackets() const
+    {
+        return std::string(to_string(), 1, 36);
     }
 
     std::wstring to_wstring() const
     {
-        return to_wstring(true);
+        return string_to_wstring(to_string().c_str());
     }
 
-    std::wstring to_wstring(bool include_brackets) const
+    std::wstring to_wstring_no_brackets() const
     {
-        std::wstring str;
-        str.resize(39);
-        if (include_brackets)
-        {
-            swprintf((wchar_t*)str.c_str(), str.length(), L"{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}", guid_.Data1, guid_.Data2, guid_.Data3, guid_.Data4[0], guid_.Data4[1], guid_.Data4[2], guid_.Data4[3], guid_.Data4[4], guid_.Data4[5], guid_.Data4[6], guid_.Data4[7]);
-            str.erase(38, 1);
-        }
-        else
-        {
-            swprintf((wchar_t*)str.c_str(), str.length(), L"%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X", guid_.Data1, guid_.Data2, guid_.Data3, guid_.Data4[0], guid_.Data4[1], guid_.Data4[2], guid_.Data4[3], guid_.Data4[4], guid_.Data4[5], guid_.Data4[6], guid_.Data4[7]);
-            str.erase(36, 3);
-        }
-        return str;
-    }
-
-    bool empty() const
-    {
-        return guid_ == GUID_NULL;
+        return std::wstring(to_wstring(), 1, 36);
     }
 
     bool operator == (const guid& other) const
@@ -163,12 +122,7 @@ public:
     }
 
 private:
-    explicit guid(const GUID& guid)
-    {
-        guid_ = guid;
-    }
-
-    void fixup_guid(std::wstring& str) const
+    void create_from_string(std::wstring str)
     {
         if (str.length() > 1)
         {
@@ -177,15 +131,20 @@ private:
             if (str[str.length() - 1] != L'}')
                 str.append(L"}");
         }
+        CLSIDFromString(str.c_str(), &guid_);
+    }
+
+    std::wstring string_to_wstring(const char* str) const
+    {
+        std::wstring wstr;
+        wstr.resize(39);
+        MultiByteToWideChar(0, 0, str, (int)wstr.length(), (wchar_t*)wstr.c_str(), (int)wstr.length());
+        wstr.erase(38, wstr.npos);
+        return wstr;
     }
 
 private:
     GUID guid_ = {};
 };
-
-guid new_guid()
-{
-    return guid(true);
-}
 
 #endif
