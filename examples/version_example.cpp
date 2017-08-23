@@ -111,4 +111,14 @@ int main()
     assert(str3.compare("1.2.3.4") == 0);
 
     version ver24(str3);
+
+    version ver25(ver24);
+    assert(ver25 == ver24);
+    ver25.clear();
+    ver25 = ver24;
+    assert(ver25 == ver24);
+    ver25.clear();
+    version ver26;
+    ver26.swap(version(ver24));
+    assert(ver26 == version(ver24));
 }

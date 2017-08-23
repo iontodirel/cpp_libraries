@@ -141,63 +141,9 @@ public:
     version(int major, int minor, int revision, int build) : major_(major), minor_(minor), revision_(revision), build_(build), seq_field_count_(4) {}
     version(int major, int minor, int revision, int build, const std::string& release) : major_(major), minor_(minor), revision_(revision), build_(build), release_(release), seq_field_count_(5), release_set_(true) {}
 
-    version(const version& other)
-    {
-        major_ = other.major_;
-        minor_ = other.minor_;
-        revision_ = other.revision_;
-        build_ = other.build_;
-        release_ = other.release_;
-        seq_field_count_ = other.seq_field_count_;
-        release_set_ = other.release_set_;
-    }
-
-    version& operator=(const version& other)
-    {
-        major_ = other.major_;
-        minor_ = other.minor_;
-        revision_ = other.revision_;
-        build_ = other.build_;
-        release_ = other.release_;
-        seq_field_count_ = other.seq_field_count_;
-        release_set_ = other.release_set_;
-        return *this;
-    }
-
-    version(version&& other)
-    {
-        major_ = other.major_;
-        minor_ = other.minor_;
-        revision_ = other.revision_;
-        build_ = other.build_;
-        release_ = std::move(other.release_);
-        seq_field_count_ = other.seq_field_count_;
-        release_set_ = other.release_set_;
-    }
-
-    version& operator=(version&& other)
-    {
-        major_ = other.major_;
-        minor_ = other.minor_;
-        revision_ = other.revision_;
-        build_ = other.build_;
-        release_ = std::move(other.release_);
-        seq_field_count_ = other.seq_field_count_;
-        release_set_ = other.release_set_;
-        return *this;
-    }
-
-    ~version() {}
-
     void swap(version& other)
     {
-        std::swap(major_, other.major_);
-        std::swap(minor_, other.minor_);
-        std::swap(revision_, other.revision_);
-        std::swap(build_, other.build_);
-        std::swap(release_, other.release_);
-        std::swap(seq_field_count_, other.seq_field_count_);
-        std::swap(release_set_, other.release_set_);
+        std::swap(*this, other);
     }
 
     int major() const { return major_; }
