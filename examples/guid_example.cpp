@@ -13,6 +13,11 @@ int main()
     bool empty = g.empty();
     // convert the guid to a string like xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
     std::string s = g.to_string('a');
+    // various string format specifiers
+    g.to_string('a'); // xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx - lowercase no brackets
+    g.to_string('A'); // XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX - uppercase no brackets
+    g.to_string('b'); // {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx} - lowercase with brackets
+    g.to_string('B'); // {XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX} - uppercase with brackets
 
     // Create a guid using guid::create member function
     guid g2;
