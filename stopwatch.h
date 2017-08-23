@@ -30,6 +30,17 @@
 
 #include <chrono>
 
+#ifndef SAI_CORE_AUTOSTART
+#define SAI_CORE_AUTOSTART
+
+struct autostart_t {
+    constexpr autostart_t() {}
+};
+
+constexpr autostart_t autostart;
+
+#endif
+
 class stopwatch
 {
 public:
@@ -39,6 +50,9 @@ public:
         sw.start();
         return sw;
     }
+
+    stopwatch() {}
+    stopwatch(autostart_t) { start(); }
 
     void swap(stopwatch& other)
     {
@@ -79,6 +93,13 @@ public:
     }
 
     bool running() const { return running_; }
+
+    template <class Duration>
+    void elapsed(Duration duration)
+    {
+        end_ = std::chrono::high_resolution_clock::now();
+        start_ = end_ - std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    }
 
     template <class Duration>
     Duration elapsed() const
