@@ -10,8 +10,8 @@ int main()
     guid g = guid::create_new();
     // check if empty
     bool empty = g.empty();
-    // convert the guid to a string like {XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}
-    std::string s = g.to_string();
+    // convert the guid to a string like xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    std::string s = g.to_string('a');
 
     // Create a guid using guid::create member function
     guid g2;
@@ -25,7 +25,7 @@ int main()
     assert(!(g3 == g));
     std::string s2 = g3.to_string();
     assert(s2.compare("{2AC3E955-939F-4756-8BC1-940BB7C882C3}") == 0);
-    assert(g3.to_string_no_brackets().compare("2AC3E955-939F-4756-8BC1-940BB7C882C3") == 0);
+    assert(g3.to_string(guid_format::uppercase_no_brackets).compare("2AC3E955-939F-4756-8BC1-940BB7C882C3") == 0);
 
     guid g4(g3);
     assert(g4 == g3);

@@ -30,7 +30,17 @@
 
 #include <string>
 #include <cwchar>
+#include <algorithm>
 #include <Windows.h>
+
+enum class guid_format
+{
+    default = 1,
+    uppercase = 1,
+    lowercase = 2,
+    uppercase_no_brackets,
+    lowercase_no_brackets
+};
 
 class guid
 {
@@ -89,26 +99,101 @@ public:
 
     std::string to_string() const
     {
+        return to_string(guid_format::default);
+    }
+
+    std::string to_string(guid_format format) const
+    {
         std::string str;
         str.resize(39);
-        snprintf((char*)str.c_str(), str.length(), "{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}", guid_.Data1, guid_.Data2, guid_.Data3, guid_.Data4[0], guid_.Data4[1], guid_.Data4[2], guid_.Data4[3], guid_.Data4[4], guid_.Data4[5], guid_.Data4[6], guid_.Data4[7]);
-        str.erase(38, str.npos);
+
+        std::string fmt;
+        switch (format)
+        {
+        case guid_format::uppercase:
+            fmt = "{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}";
+            break;
+        case guid_format::lowercase:
+            fmt = "{%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x}";
+            break;
+        case guid_format::uppercase_no_brackets:
+            fmt = "%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X";
+            break;
+        case guid_format::lowercase_no_brackets:
+            fmt = "%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x";
+            break;
+        }
+
+        snprintf((char*)str.c_str(), str.length(), fmt.c_str(), guid_.Data1, guid_.Data2, guid_.Data3, guid_.Data4[0], guid_.Data4[1], guid_.Data4[2], guid_.Data4[3], guid_.Data4[4], guid_.Data4[5], guid_.Data4[6], guid_.Data4[7]);
+
+        trim_null_terminators(str);
+
         return str;
     }
 
-    std::string to_string_no_brackets() const
+    std::string to_string(char format) const
     {
-        return std::string(to_string(), 1, 36);
+        guid_format fmt = guid_format::default;
+        switch (format)
+        {
+        case 'B':
+            fmt = guid_format::uppercase;
+            break;
+        case 'b':
+            fmt = guid_format::lowercase;
+            break;
+        case 'A':
+            fmt = guid_format::uppercase_no_brackets;
+            break;
+        case 'a':
+            fmt = guid_format::lowercase_no_brackets;
+            break;
+        }
+        return to_string(fmt);
+    }
+
+    std::string to_string(const std::string& format) const
+    {
+        guid_format fmt = guid_format::default;
+        if (format.length() == 1)
+        {
+            switch (format[0])
+            {
+            case 'B':
+                fmt = guid_format::uppercase;
+                break;
+            case 'b':
+                fmt = guid_format::lowercase;
+                break;
+            case 'A':
+                fmt = guid_format::uppercase_no_brackets;
+                break;
+            case 'a':
+                fmt = guid_format::lowercase_no_brackets;
+                break;
+            }
+        }
+        return to_string(fmt);
     }
 
     std::wstring to_wstring() const
     {
-        return string_to_wstring(to_string().c_str());
+        return to_wstring(guid_format::default);
     }
 
-    std::wstring to_wstring_no_brackets() const
+    std::wstring to_wstring(guid_format format) const
     {
-        return std::wstring(to_wstring(), 1, 36);
+        return string_to_wstring(to_string(format).c_str());
+    }
+
+    std::wstring to_wstring(char format) const
+    {
+        return string_to_wstring(to_string(format).c_str());
+    }
+
+    std::wstring to_wstring(const std::string& format) const
+    {
+        return string_to_wstring(to_string(format).c_str());
     }
 
     bool operator == (const guid& other) const
@@ -139,8 +224,14 @@ private:
         std::wstring wstr;
         wstr.resize(39);
         MultiByteToWideChar(0, 0, str, (int)wstr.length(), (wchar_t*)wstr.c_str(), (int)wstr.length());
-        wstr.erase(38, wstr.npos);
+        trim_null_terminators(wstr);
         return wstr;
+    }
+
+    template <class Type>
+    void trim_null_terminators(std::basic_string<Type>& str) const
+    {
+        str.erase(std::find_if(str.rbegin(), str.rend(), [](auto ch) { return ch != '\0'; }).base(), str.end());
     }
 
 private:
