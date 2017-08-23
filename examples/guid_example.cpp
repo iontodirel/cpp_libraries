@@ -1,4 +1,5 @@
 #include "..\guid.h"
+
 #include <cassert>
 #include <string>
 
