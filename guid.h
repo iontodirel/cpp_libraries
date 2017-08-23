@@ -154,26 +154,7 @@ public:
 
     std::string to_string(const std::string& format) const
     {
-        guid_format fmt = guid_format::default;
-        if (format.length() == 1)
-        {
-            switch (format[0])
-            {
-            case 'B':
-                fmt = guid_format::uppercase;
-                break;
-            case 'b':
-                fmt = guid_format::lowercase;
-                break;
-            case 'A':
-                fmt = guid_format::uppercase_no_brackets;
-                break;
-            case 'a':
-                fmt = guid_format::lowercase_no_brackets;
-                break;
-            }
-        }
-        return to_string(fmt);
+        return (format.length() == 1) ? to_string(format[0]) : to_string();
     }
 
     std::wstring to_wstring() const
