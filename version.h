@@ -52,7 +52,7 @@ public:
     {
         return parse(version_string, "-");
     }
-    // release separator start, release separator end...
+
     static version parse(const std::string& version_string, const std::string& release_separator)
     {
         version v;
