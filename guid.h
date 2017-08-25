@@ -72,9 +72,8 @@ public:
         create();
     }
 
-    explicit guid(const char* str)
+    explicit guid(const char* str) : guid(string_to_wstring(str))
     {
-        create_from_string(string_to_wstring(str));
     }
 
     explicit guid(const std::string& str) : guid(str.c_str())
@@ -83,7 +82,15 @@ public:
 
     explicit guid(const wchar_t* str)
     {
-        create_from_string(std::wstring(str));
+        std::wstring wstr(str);
+        if (wstr.length() > 1)
+        {
+            if (wstr[0] != L'{')
+                wstr.insert(0, L"{");
+            if (wstr[wstr.length() - 1] != L'}')
+                wstr.append(L"}");
+        }
+        CLSIDFromString(wstr.c_str(), &guid_);
     }
 
     explicit guid(const std::wstring& str) : guid(str.c_str())
@@ -142,7 +149,7 @@ public:
 
         snprintf((char*)str.c_str(), str.length(), fmt.c_str(), guid_.Data1, guid_.Data2, guid_.Data3, guid_.Data4[0], guid_.Data4[1], guid_.Data4[2], guid_.Data4[3], guid_.Data4[4], guid_.Data4[5], guid_.Data4[6], guid_.Data4[7]);
 
-        trim_null_terminators(str);
+        trim_null_terminator(str);
 
         return str;
     }
@@ -204,29 +211,17 @@ public:
     }
 
 private:
-    void create_from_string(std::wstring str)
-    {
-        if (str.length() > 1)
-        {
-            if (str[0] != L'{')
-                str.insert(0, L"{");
-            if (str[str.length() - 1] != L'}')
-                str.append(L"}");
-        }
-        CLSIDFromString(str.c_str(), &guid_);
-    }
-
     std::wstring string_to_wstring(const char* str) const
     {
         std::wstring wstr;
         wstr.resize(39);
         MultiByteToWideChar(0, 0, str, (int)wstr.length(), (wchar_t*)wstr.c_str(), (int)wstr.length());
-        trim_null_terminators(wstr);
+        trim_null_terminator(wstr);
         return wstr;
     }
 
     template <class Type>
-    void trim_null_terminators(std::basic_string<Type>& str) const
+    void trim_null_terminator(std::basic_string<Type>& str) const
     {
         str.erase(std::find_if(str.rbegin(), str.rend(), [](auto ch) { return ch != '\0'; }).base(), str.end());
     }
