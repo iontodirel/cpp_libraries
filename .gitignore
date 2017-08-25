@@ -8,3 +8,5 @@
 *.idb
 *.suo
 *.filters
+*.user
+*.lib

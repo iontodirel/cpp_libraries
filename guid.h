@@ -33,6 +33,17 @@
 #include <algorithm>
 #include <Windows.h>
 
+#ifndef SAI_CORE_CREATENEW
+#define SAI_CORE_CREATENEW
+
+struct createnew_t {
+    constexpr createnew_t() {}
+};
+
+constexpr createnew_t createnew;
+
+#endif
+
 enum class guid_format
 {
     default = 1,
@@ -54,6 +65,11 @@ public:
 
     guid()
     {
+    }
+
+    guid(createnew_t)
+    {
+        create();
     }
 
     explicit guid(const char* str)
