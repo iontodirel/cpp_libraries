@@ -32,11 +32,6 @@
 #include <random>
 
 template <class StringType, class Traits, class Allocator>
-inline auto random_string(const std::basic_string<StringType, Traits, Allocator>& allowed_chars, int length = 8);
-
-inline std::string random_string(int length = 8);
-
-template <class StringType, class Traits, class Allocator>
 inline auto random_string(const std::basic_string<StringType, Traits, Allocator>& allowed_chars, int length)
 {
     std::random_device generator;
@@ -49,6 +44,24 @@ inline auto random_string(const std::basic_string<StringType, Traits, Allocator>
 inline std::string random_string(int length)
 {
     const std::string allowed_chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    return random_string(allowed_chars, length);
+}
+
+inline std::wstring random_wstring(int length)
+{
+    const std::wstring allowed_chars = L"abcdefghijklmnopqrstuvwxyz0123456789";
+    return random_string(allowed_chars, length);
+}
+
+inline std::u16string random_u16string(int length)
+{
+    const std::u16string allowed_chars = u"abcdefghijklmnopqrstuvwxyz0123456789";
+    return random_string(allowed_chars, length);
+}
+
+inline std::u32string random_u32string(int length)
+{
+    const std::u32string allowed_chars = U"abcdefghijklmnopqrstuvwxyz0123456789";
     return random_string(allowed_chars, length);
 }
 
