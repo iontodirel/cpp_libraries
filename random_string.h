@@ -36,7 +36,7 @@ inline auto random_string(const std::basic_string<StringType, Traits, Allocator>
 {
     std::random_device generator;
     std::uniform_int_distribution<int> distribution(0, allowed_chars.size() - 1);
-    typename std::remove_const<std::remove_reference<decltype(allowed_chars)>::type>::type random_string;
+    std::basic_string<StringType, Traits, Allocator> random_string;
     std::generate_n(std::back_inserter(random_string), length, [&]() { return allowed_chars[distribution(generator)]; });
     return random_string;
 }
