@@ -30,12 +30,14 @@
 
 #include <string>
 #include <random>
+#include <algorithm>
+#include <iterator>
 
 template <class StringType, class Traits, class Allocator>
 inline auto random_string(const std::basic_string<StringType, Traits, Allocator>& allowed_chars, int length)
 {
     std::random_device generator;
-    std::uniform_int_distribution<int> distribution(0, allowed_chars.size() - 1);
+    std::uniform_int_distribution<int> distribution(0, (int)(allowed_chars.size() - 1));
     std::basic_string<StringType, Traits, Allocator> random_string;
     std::generate_n(std::back_inserter(random_string), length, [&]() { return allowed_chars[distribution(generator)]; });
     return random_string;
