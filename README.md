@@ -37,10 +37,10 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** uses exceptions, but also accomodates code that uses error handling using return codes, which needs more predictability; not all modules currently support both models, but that support is coming the the goal is to have support for error handling with both exceptions and error codes
 
 # Modules 
-- stopwatch
-- guid
-- version
-- random_string
+- **stopwatch**, measures and records time, compatible with *chrono*
+- **guid**, generates global unique identifiers, can parse and covert them to string 
+- **version**, stores version information, can parse and covert them to string
+- **random_string**, generates random strings of varying length
 
 The current modules being worked on are *timer* and *file*, which are going to be published next.
 
