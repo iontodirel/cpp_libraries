@@ -12,7 +12,7 @@ more than ever.
 
 There are a lot of libraries for C++ out there, there is even a larger number of C libraries, that can be used directly from C++.
 I think it's kind of sad that they all follow different styles and have different designs, and serve different purposes.
-Each trying to introduce the same concept, or thing again, and again, for different reasons, or reinventing the wheel, because it's missing from the standard library. **sai** tries to provide a comprehensive and rich set of libraries, for everyone. On the other side, Windows for examples provides a very large amount of APIs and features, C++ needs to tap into that in a modern and usable way.
+Each trying to introduce the same concept, or thing again, and again, for different reasons, or reinventing the wheel, because it's missing from the standard library. **sai** tries to provide a comprehensive and rich set of libraries, for everyone. On the other side, Windows for example provides a very large amount of APIs and features, C++ needs to tap into that in a modern, usable and easy way.
 
 The name **sai** is a word play of the word "say", or "saying", which means we say, or express what we want to do, and the machine does it for us.
 
@@ -41,6 +41,10 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** will use polymorthic value types, so users don't have to worry about pointers or references, copies, memory etc.
 - **sai** will never return pointers to memory that users need to free or think about, **sai** will not require any memory management done by the users
 - **sai** will not, now nor ever, introduce new string types; C++ does not have a string problem, C++ has a Unicode problem
+
+## Influences
+
+Boost, .NET, Node.js, Python, Go, D, Rust, Qt
 
 # Modules 
 - **stopwatch**, measures and records time, compatible with *chrono*
