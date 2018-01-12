@@ -27,8 +27,8 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** follows the idea that simple things should be simple
 - **Simplicity**. Althought I believe that simple thing should be simple, I also believe that large complex things can be made simple too, but possible at the expense of flexibility or performance. 
 - **sai** is currently targetting C++17, and is always going to embrace the latest ISO C++ standard, as available in the compilers
-- **sai** employs *simple* unit tests, and strongly believes in unit tests, without unit tests you can't dare have others use your library; Simple unit tests, in that I believe that the simplicty of the unit tests is important and unit tests in a way is your documentation and your code samples. I see a lot of libraries using fancy test frameworks and trying to automate things as much as they can through mecros, that's great. But in doing so, you can't read the unit tests just as easy, and you can't understand as easy how to use the library or the code.
-- **sai** is not stable, APIs might change, toward better I hope
+- **sai** employs *simple* unit tests, and strongly believes in unit tests. Without unit tests you can't dare have others use your library; By simple unit tests, I mean that I believe that the simplicty of the unit tests is important, and unit tests in a way are your documentation and your code samples. I see a lot of libraries using fancy test frameworks and trying to automate things as much as they can through macros, and that's great. But in doing so, you can't read the unit tests just as easy, and you can't understand just as easy how to use the library or the code.
+- **sai** is not stable, APIs might change
 - performance is not the driving factor, but **sai** is not designed to be slow, if something is slower than expected it was not done intentionally so
 - **sai** is meant to be comprehensive and rich
 - **sai** is a work in progress, modules might be re-arranged 
@@ -38,7 +38,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** uses exceptions, but also accomodates code that uses error handling using return codes, when more predictability is needed; I also believe that in some places exceptions are unnatural, and error handling makes sense, **sai** will support both models simultaneously without needing to set a global flag or anything of sorts. Not all modules currently support both models, but that support is coming the the goal is to have support for error handling with both exceptions and error codes
 - **sai** uses and will use OOP where it makes sense, including multiple-inheritance, but favors small hierarchies
 - **sai** will support multiple Unicode encodings simultaneously, and does not need a global flag to choose or work with a specific encoding, or string type, like some libraries do; **sai** will use either a descriptor when picking an encoding to use, or will use the standard library strings as a tag for the encoding, std::string for UTF8, std::wstring and std::u16string for UTF16 and so on; in some cases only specific encodings might be supported due to the underlying system limitations; for example it doesn't make much sense to support UTF32 when writing to the Win32 registry
-- **sai** will use polymorthic value types, so users don't have to worry about pointers or references, object slicing, copies, memory etc.
+- **sai** will use polymorphic value types, so users don't have to worry about pointers or references, object slicing, copies, memory etc.
 - **sai** will never return pointers to memory that users need to free or think about, **sai** will not require any memory management done by the users
 - **sai** will not, now nor ever, introduce new string types; C++ does not have a string problem, C++ has a Unicode problem
 
@@ -52,7 +52,7 @@ Boost, .NET, Node.js, Python, Go, D, Rust, Qt
 - **version**, stores version information, can parse and covert them to string
 - **random_string**, generates random strings of varying length
 
-The current modules being worked on are *timer* and *file*, which are going to be published next. The modules after *format* and *thread_pool*.
+The current modules being worked on are *timer* and *file*, which are going to be published next. The modules after, *format* and *thread_pool*.
 
 # License
 **sai** is licensed under a permissive MIT license.
