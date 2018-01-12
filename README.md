@@ -33,7 +33,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** is meant to be comprehensive and rich
 - **sai** is a work in progress, modules might be re-arranged 
 
-## Design choices
+## Other design choices
 - Naming wise, **sai** follows a design similar to that of the C++ standard library, in that it uses short names, all lower_case names. 
 - **sai** uses exceptions, but also accomodates code that uses error handling using return codes, when more predictability is needed; I also believe that in some places exceptions are unnatural, and error handling makes sense, **sai** will support both models simultaneously without needing to set a global flag or anything of sorts. Not all modules currently support both models, but that support is coming the the goal is to have support for error handling with both exceptions and error codes
 - **sai** uses and will use OOP where it makes sense, including multiple-inheritance, but favors small hierarchies
