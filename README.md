@@ -41,6 +41,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** will use polymorphic value types, so users don't have to worry about pointers or references, object slicing, copies, memory etc.
 - **sai** will never return pointers to memory that users need to free or think about, **sai** will not require any memory management done by the users
 - **sai** will not introduce new string types; I believe that C++ has a Unicode problem, not a string problem
+- **sai** is meant to be cross-platform, but currently the focus is on adding libraries as soon as possible, with cross platform support coming on the go, some modules might be made cross platform sooner than others; currently the development focus is on Windows
 
 ## Inspired by
 
