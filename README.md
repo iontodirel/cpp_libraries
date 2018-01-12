@@ -15,3 +15,29 @@ I think it's kind of sad that they all follow different styles and have differen
 Each trying to introduce the same concept, or thing again, and again, for different reasons, or reinventing the wheel, because it's missing from the standard library. **sai** tries to provide a comprehensive and rich set of libraries, for everyone.
 
 The name **sai** is a word play of the word "say", or "saying", which means we say, or express what we want to do, and the machine does it for us.
+
+# Philosphy
+- **sai** is open source, under a permissive license, and will remain that way
+- Modules are meant to be standalone, with as little interdependencies as possible... a file does not depend on a stopwatch or timer
+- Usability and composability with C++, pluggability into C++, as a priority
+- No build system should be required, some modules are available as single header
+- No external dependencies on other libraries
+- **sai** is written to be immediately useful and usable, and not require a buy in
+- **sai** follows the idea that simple things should be simple
+- **sai** is currently targetting C++17, and is always going to embrace the latest ISO C++ standard, as available in the compilers
+- **sai** employs *simple* unit tests, and strongly believes in unit tests, without unit tests you can't dare have others use your library; Simple unit tests, in that I believe that the simplicty of the unit tests is important and unit tests in a way is your documentation and your code samples. I see a lot of libraries using fancy test frameworks and trying to automate things as much as they can through mecros, that's great. But in doing so, you can't read the unit tests just as easy, and you can't understand as easy how to use the library or the code.
+- **sai** is not stable, APIs might change, toward better I hope
+- performance is not the driving factor, but **sai** is not designed to be slow, if something is slower than expected it was not done intentionally so
+- **sai** is meant to be comprehensive and rich
+- **sai** is a work in progress
+
+# Modules 
+- stopwatch
+- guid
+- version
+- random_string
+
+The current modules being worked on are *timer* and *file*, which are going to be published next.
+
+# License
+**sai** is licensed under a permissive MIT license.
