@@ -35,12 +35,12 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 
 ## Other design choices
 - Naming wise, **sai** follows a design similar to that of the C++ standard library, in that it uses short names, all lower_case names. 
-- **sai** uses exceptions, but also accomodates code that uses error handling using return codes, when more predictability is needed; I also believe that in some places exceptions are unnatural, and error handling makes sense, **sai** will support both models simultaneously without needing to set a global flag or anything of sorts. Not all modules currently support both models, but that support is coming the the goal is to have support for error handling with both exceptions and error codes
+- **sai** uses exceptions, but also accomodates code that uses error handling using return codes, when more predictability is needed; I also believe that in some places exceptions are unnatural, and error handling makes more sense, **sai** will support both models simultaneously without needing to set a global flag or anything of sorts. Not all modules currently support both models, but that support is coming the the goal is to have support for error handling with both exceptions and error codes
 - **sai** uses and will use OOP where it makes sense, including multiple-inheritance, but favors small hierarchies
 - **sai** will support multiple Unicode encodings simultaneously, and does not need a global flag to choose or work with a specific encoding, or string type, like some libraries do; **sai** will use either a descriptor when picking an encoding to use, or will use the standard library strings as a tag for the encoding, std::string for UTF8, std::wstring and std::u16string for UTF16 and so on; in some cases only specific encodings might be supported due to the underlying system limitations; for example it doesn't make much sense to support UTF32 when writing to the Win32 registry
 - **sai** will use polymorphic value types, so users don't have to worry about pointers or references, object slicing, copies, memory etc.
 - **sai** will never return pointers to memory that users need to free or think about, **sai** will not require any memory management done by the users
-- **sai** will not, now nor ever, introduce new string types; C++ does not have a string problem, C++ has a Unicode problem
+- **sai** will not introduce new string types; I believe that C++ has a Unicode problem, not a string problem
 
 ## Inspired by
 
@@ -52,7 +52,7 @@ Boost, .NET, Node.js, Python, Go, D, Rust, Qt
 - **version**, stores version information, can parse and covert them to string
 - **random_string**, generates random strings of varying length
 
-The current modules being worked on are *timer* and *file*, which are going to be published next. The modules after, *format* and *thread_pool*.
+The current modules being worked on are *timer* and *file*, which are going to be published next. The modules planned after, *format* and *thread_pool*.
 
 # License
 **sai** is licensed under a permissive MIT license.
