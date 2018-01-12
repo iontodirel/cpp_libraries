@@ -18,7 +18,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 
 # The Philosphy of sai
 - **sai** is open source, under a permissive license, and will remain that way
-- Create awarness of C++ and promote and increase C++ usage
+- A driving factor from **sai** is creating awarness of C++ and promote and increase C++ usage
 - **Modularity**. Modules are meant to be standalone, with as little interdependencies as possible... a file does not depend on a stopwatch or timer
 - **Usability** and composability with C++, pluggability into C++, as a priority; **sai** is design to complement the standard library, not completely replace it
 - No build system should be required, some modules are available as single header
