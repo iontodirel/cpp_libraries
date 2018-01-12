@@ -19,7 +19,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 # The Philosphy of sai
 - **sai** is open source, under a permissive license, and will remain that way
 - **Modularity**. Modules are meant to be standalone, with as little interdependencies as possible... a file does not depend on a stopwatch or timer
-- **Usability** and composability with C++, pluggability into C++, as a priority
+- **Usability** and composability with C++, pluggability into C++, as a priority; **sai** is design to complement the standard library, not completely replace it
 - No build system should be required, some modules are available as single header
 - No external dependencies on other libraries
 - **sai** is written to be immediately useful and usable, and not require a buy in, **sai** should be very cheap to use, integrate in other projects, or discard if not needed due to modularity and no dependencies goals
@@ -32,10 +32,14 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** is meant to be comprehensive and rich
 - **sai** is a work in progress, modules might be re-arranged 
 
-## Other design aspects of sai
-- **sai** follows a design similar to that of the C++ standard library, in that it uses short names, all lower_case names. 
-- **sai** uses exceptions, but also accomodates code that uses error handling using return codes, which needs more predictability; not all modules currently support both models, but that support is coming the the goal is to have support for error handling with both exceptions and error codes
+## Other design choices and aspects of sai
+- Naming wise, **sai** follows a design similar to that of the C++ standard library, in that it uses short names, all lower_case names. 
+- **sai** uses exceptions, but also accomodates code that uses error handling using return codes, when more predictability is needed; I also believe that in some places exceptions are unnatural, and error handling makes sense, **sai** will support both models simultaneously without needing to set a global flag or anything of sorts. Not all modules currently support both models, but that support is coming the the goal is to have support for error handling with both exceptions and error codes
 - **sai** uses and will use OOP where it makes sense, including multiple-inheritance, but favors small hierarchies
+- **sai** will support multiple Unicode encodings simultaneously, and does not need a global flag to choose or work a specific encoding; **sai** will use either a descriptor when picking an encoding to use, or will use the standard library strings as a tag for the encoding, std::string for UTF8, std::wstring and std::u16string for UTF16 and so on; in some cases only specific encodings might be supported due to the underlying system limitations; for example it doesn't make much sense to support UTF32 when writing to the Win32 registry
+- **sai** will use polymorthic value types, so users don't have to worry about pointers or references, copies, memory etc.
+- **sai** will never return pointers to memory that users need to free or think about, **sai** will not require any memory management done by the users
+- **sai** will not, now nor ever, introduce new string types; C++ does not have a string problem, C++ has a Unicode problem
 
 # Modules 
 - **stopwatch**, measures and records time, compatible with *chrono*
