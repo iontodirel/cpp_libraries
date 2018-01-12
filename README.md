@@ -42,7 +42,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** will never return pointers to memory that users need to free or think about, **sai** will not require any memory management done by the users
 - **sai** will not, now nor ever, introduce new string types; C++ does not have a string problem, C++ has a Unicode problem
 
-## Influences
+## Inspiration
 
 Boost, .NET, Node.js, Python, Go, D, Rust, Qt
 
