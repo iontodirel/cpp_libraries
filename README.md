@@ -42,7 +42,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **version**, stores version information, can parse and covert them to string
 - **random_string**, generates random strings of varying length
 
-The current modules being worked on are *timer* and *file*, which are going to be published next.
+The current modules being worked on are *timer* and *file*, which are going to be published next. The modules after *format* and *thread_pool*.
 
 # License
 **sai** is licensed under a permissive MIT license.
