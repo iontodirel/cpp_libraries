@@ -22,7 +22,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **Usability** and composability with C++, pluggability into C++, as a priority
 - No build system should be required, some modules are available as single header
 - No external dependencies on other libraries
-- **sai** is written to be immediately useful and usable, and not require a buy in
+- **sai** is written to be immediately useful and usable, and not require a buy in, **sai** should be very cheap to use, integrate in other projects, or discard if not needed due to modularity and no dependencies goals
 - **sai** follows the idea that simple things should be simple
 - **Simplicity**. Althought I believe that simple thing should be simple, I also believe that large complex things can be made simple too, but possible at the expense of flexibility or performance. 
 - **sai** is currently targetting C++17, and is always going to embrace the latest ISO C++ standard, as available in the compilers
@@ -33,8 +33,9 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** is a work in progress, modules might be re-arranged 
 
 ## Other design aspects of sai
-- **sai** follows a design similar to that of the C++ standard library, in that it uses short names, all lower_case. 
+- **sai** follows a design similar to that of the C++ standard library, in that it uses short names, all lower_case names. 
 - **sai** uses exceptions, but also accomodates code that uses error handling using return codes, which needs more predictability; not all modules currently support both models, but that support is coming the the goal is to have support for error handling with both exceptions and error codes
+- **sai** uses and will use OOP where it makes sense, including multiple-inheritance, but favors small hierarchies
 
 # Modules 
 - **stopwatch**, measures and records time, compatible with *chrono*
