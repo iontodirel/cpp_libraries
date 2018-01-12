@@ -29,7 +29,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** is not stable, APIs might change, toward better I hope
 - performance is not the driving factor, but **sai** is not designed to be slow, if something is slower than expected it was not done intentionally so
 - **sai** is meant to be comprehensive and rich
-- **sai** is a work in progress
+- **sai** is a work in progress, modules might be re-arranged 
 
 # Modules 
 - stopwatch
