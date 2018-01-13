@@ -42,7 +42,9 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** will use polymorphic value types, so users don't have to worry about pointers or references, object slicing, copies, memory etc.
 - **sai** will never return pointers to memory that users need to free or think about, **sai** will not require any memory management done by the users
 - **sai** will not introduce new string types; I believe that C++ has a Unicode problem, not a string problem
-- **sai** is meant to be cross-platform, but currently the focus is on adding libraries as soon as possible, with cross platform support coming on the go, some modules might be made cross platform sooner than others; currently the development focus is on Windows
+- **sai** is meant to be cross-platform, but currently the focus is on adding modules as soon as possible, with cross platform support coming as it goes, some modules might be made cross platform sooner than others; currently the development focus is on Windows
+- **Eventing** in **sai**. **sai** supports all sort of callback types, like function pointers, functors, std::function or lambdas. In some cases, as it's appropriate, the callback might be taken as templated arguments in the constructors, much like std::thread. There will also be member or non member functions using the following naming scheme: on_event_name, on_event_name_add, on_event_name_remove, on_event_name_clear, which will be responsible for adding and removing the event callbacks.
+- **sai** will rely on templates and metaprogramming to provide genericity and flexibility
 
 ## Inspired by
 
