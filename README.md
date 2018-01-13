@@ -44,6 +44,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **sai** will not introduce new string types; I believe that C++ has a Unicode problem, not a string problem
 - **sai** is meant to be cross-platform, but currently the focus is on adding modules as soon as possible, with cross platform support coming as it goes, some modules might be made cross platform sooner than others; currently the development focus is on Windows
 - **Eventing** in **sai**. **sai** supports all sort of callback types, like function pointers, functors, std::function or lambdas. In some cases, as it's appropriate, the callback might be taken as templated arguments in the constructors, much like std::thread. There will also be member or non member functions using the following naming scheme: on_event_name, on_event_name_add, on_event_name_remove, on_event_name_clear, which will be responsible for adding and removing the event callbacks.
+- **Properties** in **sai**. When getting or setting values, **sai** is simply using functions and names that do not start with get nor set. For example, for getting and setting a *name* in an object *obj*: *obj.name()*, *obj.name("name")*; The first function and call is the getter, and the second function is the setter.
 - **sai** will rely on templates and metaprogramming to provide genericity and flexibility
 
 ## Inspired by
