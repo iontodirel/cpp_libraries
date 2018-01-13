@@ -25,9 +25,9 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - No external dependencies on other libraries
 - **sai** is written to be immediately useful and usable, and not require a buy in, **sai** should be very cheap to use, integrate in other projects, or discard if not needed due to modularity and no dependencies goals
 - **sai** follows the idea that simple things should be simple
-- **Simplicity**. Althought I believe that simple thing should be simple, I also believe that large complex things can be made simple too, but possible at the expense of flexibility or performance. 
+- **Simplicity** and **simple complexity**. Althought I believe that simple thing should be simple, I also believe that large complex things can be made simple too, but possible at the expense of flexibility or performance. 
 - **sai** is currently targetting C++17, and is always going to embrace the latest ISO C++ standard, as available in the compilers
-- **sai** employs *simple* unit tests, and strongly believes in unit tests. Without unit tests you can't dare have others use your library; By simple unit tests, I mean that I believe that the simplicty of the unit tests is important, and unit tests in a way are your documentation and your code samples. I see a lot of libraries using fancy test frameworks and trying to automate things as much as they can through macros, and that's great. But in doing so, you can't read the unit tests just as easy, and you can't understand just as easy how to use the library or the code.
+- **sai** employs *simple* unit tests, and strongly believes in unit tests. Without unit tests you don't have an API or a library; Here by **simple unit tests**, I mean that I believe that the simplicty of the unit tests is important, and unit tests in a way are your documentation and your code samples. A lot of libraries are using fancy test frameworks and trying to automate things in the tests as much as they can, either through macros, or abstractions, and that's great. But in doing so, the unit tests are made less readable and leass easy to understand.
 - **sai** is not stable, APIs might change
 - performance is not the driving factor, but **sai** is not designed to be slow, if something is slower than expected it was not done intentionally so
 - **sai** is meant to be comprehensive and rich
