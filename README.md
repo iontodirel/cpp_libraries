@@ -1,4 +1,4 @@
-# sai
+# The sai C++ library
 **sai** is a general purpose C++ library designed for usability. **sai** is written to be immediately useful and usable, and tries to not put a burden on the programmers using it.
 **sai** does not require a *buy in*, in that unlike other libraries or frameworks like Qt or .NET, it tries
 not to have interdependecies between its parts as much as it is technically feasible. Each module from **sai** is designed to be used and usable on its own, each is meant to be its own beautiful snowflake.
