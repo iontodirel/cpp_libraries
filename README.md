@@ -32,6 +32,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - performance is not the driving factor, but **sai** is not designed to be slow, if something is slower than expected it was not done intentionally so
 - **sai** is meant to be comprehensive and rich
 - **sai** is a work in progress, modules might be re-arranged 
+- contributions are welcomed
 
 ## Other design choices
 - Naming wise, **sai** follows a design similar to that of the C++ standard library, in that it uses short names, all lower_case names. 
