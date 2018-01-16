@@ -63,6 +63,7 @@ The current modules being worked on are *timer* and *file*, which are going to b
 - **test**, asserts, measurements, logging and reporting
 - **build**, a build system as a library
 - **camera**, a generic API for capturing images and streams from cameras, would support DirectShow, MediaFoundation, WIA and vendor specific APIs like Basler and Point Grey
+- **imaging**, image transcoding and processing
 - **crypto**, encryption and hashing
   - **hash**
 - **json**
