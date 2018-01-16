@@ -64,37 +64,37 @@ The current modules being worked on are *timer* and *file*, which are going to b
 - **build**, a build system as a library
 - **camera**, a generic API for capturing images and streams from cameras, would support DirectShow, MediaFoundation, WIA and vendor specific APIs like Basler and Point Grey
 - **crypto**, encryption and hashing
-  - hash
-- json
-- xml
-- log
-- net
-  - socket
-  - tcp
-  - udp
-- process
-- registry
-- env
-  - args
-  - environment_variable
-- registry
+  - **hash**
+- **json**
+- **xml**
+- **log**
+- **net**
+  - **socket**
+  - **tcp**
+  - **udp**
+- **process**
+- **registry**
+- **env**
+  - **args**
+  - **environment_variable**
+- **registry**
 - **resources**, managing resources embedded into executables
-- uri
-- unicode
+- **uri**
+- **unicode**
 - **format**, simple string formatting
-- compression
-- io
-  - pipe
-  - file
-  - filesystem_watcher
-- debug
-  - pe
-  - pdb
-  - dwarf
-  - elf
-  - trace
-- thread_pool
-- timer
+- **compression**
+- **io**
+  - **pipe**
+  - **file**
+  - **filesystem_watcher**
+- **debug**
+  - **pe**
+  - **pdb**
+  - **dwarf**
+  - **elf**
+  - **trace**, stack walker and logger
+- **thread_pool**
+- **timer**, execute functions at specific intervals
 
 # License
 **sai** is licensed under a permissive MIT license.
