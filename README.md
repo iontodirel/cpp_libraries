@@ -94,6 +94,7 @@ The current modules being worked on are *timer* and *file*, which are going to b
   - elf
   - trace
 - thread_pool
+- timer
 
 # License
 **sai** is licensed under a permissive MIT license.
