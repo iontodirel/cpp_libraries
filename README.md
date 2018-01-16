@@ -21,7 +21,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **Because C++**. A driving factor from **sai** is creating awarness of **C++** and promote and increase C++ usage
 - **Modularity**. Modules are meant to be standalone, with as little interdependencies as possible... a file does not depend on a stopwatch or timer
 - **Usability** and composability with C++, pluggability into C++, as a priority; **sai** is design to complement the standard library, not completely replace it
-- No build system should be required, some modules are available as single header
+- No build system should be required, some modules are available as single header.
 - No external dependencies on other libraries
 - **sai** is written to be immediately useful and usable, and not require a buy in, **sai** should be very cheap to use, integrate in other projects, or discard if not needed due to modularity and no dependencies goals
 - **sai** follows the idea that simple things should be simple
