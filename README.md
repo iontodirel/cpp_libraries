@@ -59,7 +59,7 @@ Boost, .NET, Node.js, Python, Go, D, Rust, Qt
 
 The current modules being worked on are *timer* and *file*, which are going to be published next.
 
-## Planned modules
+## Map of planned modules
 - **test**, asserts, measurements, logging and reporting
 - **build**, a build system as a library
 - **camera**, a generic API for capturing images and streams from cameras, would support DirectShow, MediaFoundation, WIA and vendor specific APIs like Basler and Point Grey
