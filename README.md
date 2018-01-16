@@ -60,10 +60,10 @@ Boost, .NET, Node.js, Python, Go, D, Rust, Qt
 The current modules being worked on are *timer* and *file*, which are going to be published next.
 
 ## Planned modules
-- test
-- build
-- camera
-- crypto
+- **test**, asserts, measurements, logging and reporting
+- **build**, a build system as a library
+- **camera**, a generic API for capturing images and streams from cameras, would support DirectShow, MediaFoundation, WIA and vendor specific APIs like Basler and Point Grey
+- **crypto**, encryption and hashing
   - hash
 - json
 - xml
@@ -78,10 +78,10 @@ The current modules being worked on are *timer* and *file*, which are going to b
   - args
   - environment_variable
 - registry
-- resources
+- **resources**, managing resources embedded into executables
 - uri
 - unicode
-- format
+- **format**, simple string formatting
 - compression
 - io
   - pipe
