@@ -21,7 +21,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **Because C++**. A driving factor from **sai** is creating awarness of **C++** and promote and increase C++ usage
 - **Modularity**. Modules are meant to be standalone, with as little interdependencies as possible... a file does not depend on a stopwatch or timer
 - **Usability** and composability with C++, pluggability into C++, as a priority; **sai** is design to complement the standard library, not completely replace it
-- No build system should be required, some modules are available as single header.
+- No build system should be required, some modules are available as single header. However, in some cases the reality is that even without dependencies, just writing code against the native platform might require a build system to resolve the system include headers, for example Windows.h. In such cases, **sai** will offer build scripts for the native platform, for CMake and other popular build systems. In the long term, a more permamement solution will be required that fixes this problem.
 - No external dependencies on other libraries
 - **sai** is written to be immediately useful and usable, and not require a buy in, **sai** should be very cheap to use, integrate in other projects, or discard if not needed due to modularity and no dependencies goals
 - **sai** follows the idea that simple things should be simple
@@ -46,6 +46,7 @@ The name **sai** is a word play of the word "say", or "saying", which means we s
 - **Eventing** in **sai**. **sai** supports all sort of callback types, like function pointers, functors, std::function or lambdas. In some cases, as it's appropriate, the callback might be taken as templated arguments in the constructors, much like std::thread. There will also be member or non member functions using the following naming scheme: on_event_name, on_event_name_add, on_event_name_remove, on_event_name_clear, which will be responsible for adding and removing the event callbacks.
 - **Properties** in **sai**. When getting or setting values, **sai** is simply using functions and names that do not start with get nor set. For example, for getting and setting a *name* in an object *obj*: *obj.name()*, *obj.name("name")*; The first function and call is the getter, and the second function is the setter.
 - **sai** will rely on templates and metaprogramming to provide genericity and flexibility
+- Some **sai** modules will be available as single header, the decision on that is mostly driven by the code size. And I'm still exploring if the modules that are not, should be made available in both flavors.
 
 ## Inspired by
 
