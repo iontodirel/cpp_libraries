@@ -57,7 +57,43 @@ Boost, .NET, Node.js, Python, Go, D, Rust, Qt
 - **version**, stores version information, can parse and covert them to string
 - **random_string**, generates random strings of varying length
 
-The current modules being worked on are *timer* and *file*, which are going to be published next. The modules planned after, *format* and *thread_pool*.
+The current modules being worked on are *timer* and *file*, which are going to be published next.
+
+## Planned modules
+- test
+- build
+- camera
+- crypto
+  - hash
+- json
+- xml
+- log
+- net
+  - socket
+  - tcp
+  - udp
+- process
+- registry
+- env
+  - args
+  - environment_variable
+- registry
+- resources
+- uri
+- unicode
+- format
+- compression
+- io
+  - pipe
+  - file
+  - filesystem_watcher
+- debug
+  - pe
+  - pdb
+  - dwarf
+  - elf
+  - trace
+- thread_pool
 
 # License
 **sai** is licensed under a permissive MIT license.
